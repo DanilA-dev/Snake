@@ -6,7 +6,7 @@ public class ScoreSystem : MonoBehaviour
 {
     private int score;
 
-    public event Action<int> OnScoreChanged;
+    public static event Action<int> OnScoreChanged;
 
 
     #region PROPERTIES
@@ -15,29 +15,10 @@ public class ScoreSystem : MonoBehaviour
 
     #endregion
 
-    #region SINGLETON
-
-    public static ScoreSystem Instance;
-
-    private void Awake()
-    {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(this);
-    }
-
-    #endregion
 
     public void AddScore(int amount)
     {
         score += amount;
-        OnScoreChanged?.Invoke(score);
+        OnScoreChanged?.Invoke(Score);
     }
 }

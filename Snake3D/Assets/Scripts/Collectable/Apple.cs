@@ -6,12 +6,10 @@ public class Apple : ACollectable
 {
     protected override CollectableType Collectable { get => CollectableType.Meal; }
 
-    private ScoreSystem score;
 
     private void Start()
     {
         CollectablePosition.SetNewPosition(this.gameObject);
-        score = ScoreSystem.Instance;
     }
 
 
@@ -34,9 +32,13 @@ public class Apple : ACollectable
 
     protected override IEnumerator Eat(float time)
     {
-        yield return new WaitForSeconds(time);
-        CollectablePosition.SetNewPosition(this.gameObject);
-        score.AddScore(CollectableParams.ScoreForCollect);
+        CollectableState = CollectableState.Eaten;
+        if(CollectableState == CollectableState.Eaten)
+        {
+            yield return new WaitForSeconds(time);
+            CollectablePosition.SetNewPosition(this.gameObject);
+            CollectableState = CollectableState.NotEaten;
+        }
 
     }
 

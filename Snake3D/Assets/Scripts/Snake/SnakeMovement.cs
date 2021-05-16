@@ -9,7 +9,7 @@ public class SnakeMovement : MonoBehaviour
 
     [Range(1, 20)]
     [SerializeField] private float snakeSpeed;
-    [Range(10, 100)]
+    [Range(10, 300)]
     [SerializeField] private float steeringPower;
 
 
@@ -36,16 +36,16 @@ public class SnakeMovement : MonoBehaviour
 
     private void Movement()
     {
-        if (tails.Count > 0)
-        {
-            HeadMovement();
-            Steering();
-        }
+       if (tails.Count > 0)
+       {
+           HeadMovement();
+           Steering();
+       }
     }
     
     private void HeadMovement()
     {
-        tails[0].Translate(tails[0].forward * Time.smoothDeltaTime * snakeSpeed, Space.World);
+        tails[0].Translate(tails[0].forward * Time.deltaTime * snakeSpeed, Space.World);
     }
 
     private void Steering()

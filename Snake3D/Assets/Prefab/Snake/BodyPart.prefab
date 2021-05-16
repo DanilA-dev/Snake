@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3979049366869846151}
   - component: {fileID: 516256300939682412}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: BodyPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,15 +58,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 9c7ae5c55a6e1594fb1a74aa0763effa, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 9c7ae5c55a6e1594fb1a74aa0763effa, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 9c7ae5c55a6e1594fb1a74aa0763effa, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9c7ae5c55a6e1594fb1a74aa0763effa, type: 3}
       propertyPath: m_RootOrder
