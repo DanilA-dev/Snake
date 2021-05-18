@@ -5,6 +5,7 @@ using UnityEngine;
 public class AIStarter : MonoBehaviour
 {
     [SerializeField] private SnakeMovement snake;
+    [SerializeField] private float speed;
     [SerializeField] private List<Transform> movePoints;
 
     private Vector3 target;
@@ -23,7 +24,7 @@ public class AIStarter : MonoBehaviour
 
     private void PointsMove()
     {
-        snake.Tails[0].Translate(snake.Tails[0].forward * Time.smoothDeltaTime/10f, Space.World);
+        snake.Tails[0].position = Vector3.MoveTowards(snake.Tails[0].position, target, speed * Time.deltaTime );
         snake.Tails[0].LookAt(target);
 
         if (Vector3.Distance(snake.Tails[0].position, target) <= 0.3f)

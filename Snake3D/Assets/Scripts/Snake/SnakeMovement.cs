@@ -13,6 +13,8 @@ public class SnakeMovement : MonoBehaviour
     [SerializeField] private float steeringPower;
 
 
+    private float screenWidth;
+
     private List<Transform> tails = new List<Transform>();
 
     #region PROPERTIES
@@ -26,6 +28,7 @@ public class SnakeMovement : MonoBehaviour
 
     private void Awake()
     {
+        screenWidth = Screen.width / 2;
         tails.Add(snakeHead);
     }
 
@@ -52,6 +55,25 @@ public class SnakeMovement : MonoBehaviour
     {
         var horizontalMove = joystick.Horizontal * steeringPower * Time.deltaTime;
         tails[0].Rotate(Vector3.up, horizontalMove);
+
+        //var steering = steeringPower * Time.deltaTime;
+
+        //if(Input.touchCount > 0)
+        //{
+            //Touch touch = Input.GetTouch(0);
+
+            //if(touch.position.x > screenWidth)
+            //{
+                //tails[0].Rotate(Vector3.up, steering);
+                //Debug.Log("Right");
+            //}
+            //else if(touch.position.x < screenWidth)
+            //{
+                //tails[0].Rotate(Vector3.up, -steering);
+                //Debug.Log("Left");
+            //}
+        //}
     }
 
+    
 }

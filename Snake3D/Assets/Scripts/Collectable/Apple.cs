@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Apple : ACollectable
 {
-    protected override CollectableType Collectable { get => CollectableType.Meal; }
-
 
     private void Start()
     {
         CollectablePosition.SetNewPosition(this.gameObject);
+        IdleAnimation();
+    }
+
+
+    private void IdleAnimation()
+    {
+        for (int i = 0; i < animations.Count; i++)
+        {
+            animations[i].Animate();
+        }
     }
 
 
@@ -20,14 +28,16 @@ public class Apple : ACollectable
         {
             Activate();
         }
-
-           
     }
 
     protected override void Activate()
     {
-        StartCoroutine(Eat(CollectableParams.ToEatTime));
+        if(CollectableState == CollectableState.NotEaten)
+        {
+          StartCoroutine(Eat(CollectableParams.ToEatTime));
+        }
     }
+
 
 
     protected override IEnumerator Eat(float time)
@@ -39,7 +49,6 @@ public class Apple : ACollectable
             CollectablePosition.SetNewPosition(this.gameObject);
             CollectableState = CollectableState.NotEaten;
         }
-
     }
 
     

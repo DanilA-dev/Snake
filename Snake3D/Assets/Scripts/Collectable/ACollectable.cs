@@ -5,10 +5,7 @@ using UnityEngine.Events;
 using System;
 
 
-public enum CollectableType
-{
-    Meal,Bonus
-}
+
 
 public enum CollectableState
 {
@@ -20,8 +17,9 @@ public abstract class ACollectable : MonoBehaviour
     [SerializeField] private CollectableParams collectableParams;
     [SerializeField] private CollectablePosition collectablePosition;
     [SerializeField] private List<CollectableStateEvent> collectableStateEvent = new List<CollectableStateEvent>();
+    [SerializeField] protected List<SimpleTweenAnimation> animations = new List<SimpleTweenAnimation>();
 
-    protected abstract CollectableType Collectable { get; }
+
     protected CollectableState collectableState = CollectableState.NotEaten;
 
     private event Action<CollectableState> OnStateChanged;
@@ -54,6 +52,7 @@ public abstract class ACollectable : MonoBehaviour
         OnStateChanged -= ACollectable_OnStateChanged;
     }
 
+
     private void ACollectable_OnStateChanged(CollectableState state)
     {
         for (int i = 0; i < collectableStateEvent.Count; i++)
@@ -64,6 +63,9 @@ public abstract class ACollectable : MonoBehaviour
             }
         }
     }
+
+    #region OVERRIDE METHODS
+
 
     protected abstract void Activate();
 
@@ -83,7 +85,7 @@ public abstract class ACollectable : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
-
+    #endregion
 }
 
 [System.Serializable]

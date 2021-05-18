@@ -23,6 +23,8 @@ public class SnakeCollisions : MonoBehaviour
             {
                 StartCoroutine(collisions[i].StartEvent(collType));
             }
+
+            CameraShake.Instance.Shake(1f, 1f);
         }
 
         if(other.gameObject.CompareTag("Collectable"))
