@@ -7,6 +7,7 @@ public class ScoreSystem : MonoBehaviour
     private int score;
 
     public static event Action<int> OnScoreChanged;
+    public static event Action<int> OnHighScoreChanged;
 
 
     #region PROPERTIES
@@ -15,10 +16,19 @@ public class ScoreSystem : MonoBehaviour
 
     #endregion
 
+   
 
     public void AddScore(int amount)
     {
         score += amount;
+        if(score >= PlayerPrefs.GetInt("HighScore", 0))
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            OnHighScoreChanged?.Invoke(score);
+        }
+        
         OnScoreChanged?.Invoke(Score);
     }
+
+   
 }

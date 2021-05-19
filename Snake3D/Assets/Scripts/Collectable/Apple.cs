@@ -28,6 +28,9 @@ public class Apple : ACollectable
         {
             Activate();
         }
+
+        if (other.gameObject.CompareTag("Obstacle"))
+            CollectablePosition.SetNewPosition(this.gameObject);
     }
 
     protected override void Activate()

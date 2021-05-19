@@ -7,7 +7,7 @@ public class AudioMute : MonoBehaviour
     public void MuteSound()
     {
         isMute = !isMute;
-        AudioListener.pause = !isMute;
+        AudioListener.pause = isMute;
     }
        
 }

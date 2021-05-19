@@ -34,6 +34,8 @@ public class SnakeCollisions : MonoBehaviour
             {
                 StartCoroutine(collisions[i].StartEvent(collType));
             }
+
+            CameraShake.Instance.Shake(0.1f,0.2f);
         }
     }
 }

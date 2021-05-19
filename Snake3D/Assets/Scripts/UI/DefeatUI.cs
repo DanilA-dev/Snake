@@ -23,9 +23,4 @@ public class DefeatUI : MonoBehaviour
         }
     }
 
-    public void RestartGame()
-    {
-
-    }
-   
 }
