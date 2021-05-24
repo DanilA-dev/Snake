@@ -3,64 +3,85 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum CollisionType
-{
-    Obstacle, Collectable
-}
 
 public class SnakeCollisions : MonoBehaviour
 {
-    [SerializeField] private List<CollisionEvent> collisions = new List<CollisionEvent>();
+    [SerializeField] private SnakeColor snakeColor;
+    [SerializeField] private List<CollectableCollisonEvent> eateableCollisions = new List<CollectableCollisonEvent>();
+    [SerializeField] private ObstacleCollisionEvent obstacleCollision;
 
-    private CollisionType collType;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Obstacle"))
-        {
-            collType = CollisionType.Obstacle;
-            for (int i = 0; i < collisions.Count; i++)
-            {
-                StartCoroutine(collisions[i].StartEvent(collType));
-            }
+       if(other.gameObject.CompareTag("Obstacle"))
+       {
+            StartCoroutine(obstacleCollision.StartEvent());
+       }
 
-            CameraShake.Instance.Shake(1f, 1f);
+        ACollectable collectable = other.GetComponent<ACollectable>();
+        if(collectable != null)
+        {
+            ICompareColor compareableColor = collectable.GetComponent<ICompareColor>();
+            if(compareableColor != null)
+            {
+                switch(compareableColor.CheckColor(snakeColor.CurrentColorType))
+                {
+                    case true:
+                        InvokeCollectableEvents(collectable.CollectableType);
+                        break;
+                    case false:
+                        StartCoroutine(obstacleCollision.StartEvent());
+                        break;
+                }
+            }
+            InvokeCollectableEvents(collectable.CollectableType);
         }
+    }
 
-        if(other.gameObject.CompareTag("Collectable"))
+    private void InvokeCollectableEvents(CollectableType type)
+    {
+        for (int i = 0; i < eateableCollisions.Count; i++)
         {
-            collType = CollisionType.Collectable;
-            for (int i = 0; i < collisions.Count; i++)
+            if(eateableCollisions[i].Collectable == type)
             {
-                StartCoroutine(collisions[i].StartEvent(collType));
+               StartCoroutine(eateableCollisions[i].StartEvent());
             }
-
-            CameraShake.Instance.Shake(0.1f,0.2f);
         }
     }
 }
 
 [System.Serializable]
-public class CollisionEvent
+public class CollectableCollisonEvent
 {
-    [SerializeField] private CollisionType collision;
+    [SerializeField] private CollectableType collectable;
     [SerializeField] private float toInvoke;
     [SerializeField] private UnityEvent OnCollision;
 
     #region PROPERITES
 
-    public CollisionType Collision { get => collision; }
+    public CollectableType Collectable { get => collectable; }
 
     #endregion
 
 
-    public IEnumerator StartEvent(CollisionType type)
+    public IEnumerator StartEvent()
     {
-        if(collision == type)
-        {
            yield return new WaitForSeconds(toInvoke);
            OnCollision?.Invoke();
-        }
     }
 
 }
+
+[System.Serializable]
+public class ObstacleCollisionEvent
+{
+    [SerializeField] private UnityEvent OnObstacleCollide;
+    [SerializeField] private float toInvoke;
+
+    public IEnumerator StartEvent()
+    {
+        yield return new WaitForSeconds(toInvoke);
+        OnObstacleCollide?.Invoke();
+    }
+}
+

@@ -5,16 +5,18 @@ using UnityEngine;
 public class SnakeMovement : MonoBehaviour
 {
     [SerializeField] private Transform snakeHead;
-    [SerializeField] private Joystick joystick;
 
     [Range(1, 20)]
     [SerializeField] private float snakeSpeed;
-    [Range(1, 20)]
-    [SerializeField] private float maxSnakeSpeed;
+
     [Range(10, 300)]
     [SerializeField] private float steeringPower;
+    [Range(0.5f, 10)]
+    [SerializeField] private float rotatePower;
 
+    [SerializeField] private float minSteeringX, maxSteeringX;
 
+    private Quaternion startRot;
     private List<Transform> tails = new List<Transform>();
 
     #region PROPERTIES
@@ -29,6 +31,7 @@ public class SnakeMovement : MonoBehaviour
     private void Awake()
     {
         tails.Add(snakeHead);
+        startRot = tails[0].rotation;
     }
 
     private void Update()
@@ -47,23 +50,47 @@ public class SnakeMovement : MonoBehaviour
     
     private void HeadMovement()
     {
-        tails[0].Translate(tails[0].forward * Time.deltaTime * snakeSpeed, Space.World);
+        tails[0].Translate(Vector3.forward * Time.deltaTime * snakeSpeed, Space.World);
     }
 
     private void Steering()
     {
-        var horizontalMove = joystick.Horizontal * steeringPower * Time.deltaTime;
-        tails[0].Rotate(Vector3.up, horizontalMove);
-    }
-
-
-    public void Accelerate(float amount)
-    {
-        snakeSpeed += amount;
-        if (snakeSpeed > maxSnakeSpeed)
+        if(Input.GetKey(KeyCode.D))
         {
-            snakeSpeed = maxSnakeSpeed;
+            if (tails[0].position.x >= maxSteeringX)
+            {
+                ResetRotation();
+                return;
+            }
+               
+
+            tails[0].Translate(Vector3.right * Time.deltaTime * snakeSpeed, Space.World);
+            tails[0].Rotate(Vector3.up, steeringPower * Time.deltaTime);
         }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            if (tails[0].position.x <= minSteeringX)
+            {
+                ResetRotation();
+                return;
+            }
+
+            tails[0].Translate(Vector3.left * Time.deltaTime * snakeSpeed, Space.World);
+            tails[0].Rotate(Vector3.up, -steeringPower * Time.deltaTime);
+        }
+        else
+        {
+            ResetRotation();
+        }
+
     }
-    
+
+    private void ResetRotation()
+    {
+        tails[0].rotation = Quaternion.RotateTowards(tails[0].rotation, startRot, rotatePower);
+    }
+
+
+
+
 }

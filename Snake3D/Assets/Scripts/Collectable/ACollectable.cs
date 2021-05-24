@@ -12,6 +12,11 @@ public enum CollectableState
     NotEaten, Eaten
 }
 
+public enum CollectableType
+{
+    Human, Crystal
+}
+
 public abstract class ACollectable : MonoBehaviour
 {
     [SerializeField] private CollectableParams collectableParams;
@@ -21,6 +26,8 @@ public abstract class ACollectable : MonoBehaviour
 
 
     protected CollectableState collectableState = CollectableState.NotEaten;
+
+    public abstract CollectableType CollectableType { get; }
 
     private event Action<CollectableState> OnStateChanged;
 
