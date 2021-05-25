@@ -9,7 +9,7 @@ using System;
 
 public enum CollectableState
 {
-    NotEaten, Eaten
+    NotEaten, Eaten, InProcess
 }
 
 public enum CollectableType

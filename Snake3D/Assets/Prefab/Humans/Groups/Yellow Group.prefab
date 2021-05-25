@@ -91,11 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.b
-      value: 0.09019607
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.g
-      value: 0.9526599
+      value: 0.94827586
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.r
@@ -169,11 +169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.b
-      value: 0.09019607
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.g
-      value: 0.9526599
+      value: 0.94827586
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.r
@@ -247,11 +247,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.b
-      value: 0.09019607
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.g
-      value: 0.9526599
+      value: 0.94827586
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.r
@@ -325,11 +325,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.b
-      value: 0.09019607
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.g
-      value: 0.9526599
+      value: 0.94827586
       objectReference: {fileID: 0}
     - target: {fileID: 4212942015140641054, guid: a59133fa755b5d64891dfcb3e8468149, type: 3}
       propertyPath: humanColor.r
