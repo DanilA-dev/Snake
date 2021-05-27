@@ -41,8 +41,11 @@ public class PlayerUI : MonoBehaviour
 
     private void OnScoreChanged(int score)
     {
+        var endScale = 1.2f;
+        var duration = 0.1f;
+
         scoreText.text = score.ToString();
-        scoreText.transform.DOPunchScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
+        scoreText.transform.DOScale(endScale, duration).From(1);
     }
 
 

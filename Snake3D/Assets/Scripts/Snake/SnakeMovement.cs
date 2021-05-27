@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SnakeMovementMode
-{
-    Normal,
-    Effect
-}
 
 public class SnakeMovement : MonoBehaviour
 {
-    [SerializeField] private SnakeMovementMode movementMode;
     [SerializeField] private Transform snakeHead;
 
     [Range(1, 20)]
@@ -23,7 +17,6 @@ public class SnakeMovement : MonoBehaviour
 
     [SerializeField] private float minSteeringX, maxSteeringX;
 
-    [SerializeField] private Transform feverPoint;
 
     private Quaternion startRot;
     private List<Transform> tails = new List<Transform>();
@@ -34,6 +27,10 @@ public class SnakeMovement : MonoBehaviour
     public Transform SnakeHead { get => snakeHead; }
     public float SnakeSpeed { get => snakeSpeed; }
     public float SteeringPower { get => steeringPower; }
+    public float RotatePower { get => rotatePower; }
+    public float MinSteeringX { get => minSteeringX; }
+    public float MaxSteeringX { get => maxSteeringX; }
+    public Quaternion StartRot { get => startRot; }
 
     #endregion
 
@@ -43,20 +40,8 @@ public class SnakeMovement : MonoBehaviour
         startRot = tails[0].rotation;
     }
 
-    private void Update()
-    {
-        switch(movementMode)
-        {
-            case SnakeMovementMode.Normal:
-                Movement();
-                break;
-            case SnakeMovementMode.Effect:
-                FeverMovement();
-                break;
-        }    
-    }
 
-    private void Movement()
+    public void Movement()
     {
        if (tails.Count > 0)
        {
@@ -70,15 +55,7 @@ public class SnakeMovement : MonoBehaviour
         tails[0].Translate(Vector3.forward * Time.deltaTime * snakeSpeed, Space.World);
     }
 
-    private void FeverMovement()
-    {
-        tails[0].position = Vector3.MoveTowards(tails[0].position, feverPoint.position, snakeSpeed  * Time.deltaTime);
-        if(tails[0].position == feverPoint.position)
-        {
-            tails[0].Translate(Vector3.forward * Time.deltaTime * snakeSpeed * 3, Space.World);
-        }
-    }    
-
+    
     private void Steering()
     {
         if(Input.GetKey(KeyCode.D))
@@ -123,9 +100,5 @@ public class SnakeMovement : MonoBehaviour
         return steeringOffset;
     }
 
-    public void ChangeMovementState(int newState)
-    {
-        movementMode = (SnakeMovementMode)newState;
-    }    
-
+    
 }

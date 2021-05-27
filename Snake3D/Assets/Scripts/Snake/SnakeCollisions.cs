@@ -5,47 +5,30 @@ using UnityEngine.Events;
 using System;
 
 
+
 public class SnakeCollisions : MonoBehaviour
 {
+    [SerializeField] private Animator snakeAnim;
     [SerializeField] private SnakeColor snakeColor;
     [SerializeField] private List<CollectableCollisonEvent> eateableCollisions = new List<CollectableCollisonEvent>();
     [SerializeField] private ObstacleCollisionEvent obstacleCollision;
 
     private List<ACollectable> crystals = new List<ACollectable>();
 
-    public static event Action OnFeverModeActivate;
 
     private bool isModActivate = false;
     private float timeBetween = 0.5f;
     private float currTime;
 
-    
 
     private void OnTriggerEnter(Collider other)
     {
-        Obstacle obs = other.GetComponent<Obstacle>();
-        if(obs != null)
-        {
-            obs.DamageSnake();
-            StartCoroutine(obstacleCollision.StartEvent());
-        }    
-
-        ACollectable collectable = other.GetComponent<ACollectable>();
-        if(collectable != null)
-        {
-            if(collectable is Crystal)
-            {
-                crystals.Add(collectable);
-                if(!Crystal.isFeverModeOn)
-                {
-                   StopAllCoroutines();
-                   StartCoroutine(FeverModCheck());
-                }
-            }
-            CheckingCollectable(collectable);
-        }
+        CollectableCheck(other);
+        ObstacleCheck(other);
     }
 
+
+    // v drugoy klass
     private IEnumerator FeverModCheck()
     {
         if(crystals.Count > 0)
@@ -57,9 +40,7 @@ public class SnakeCollisions : MonoBehaviour
                  {
                     if(crystals.Count >= 3)
                     {
-                        Debug.Log("кристалов больше трех");
-                        //кинуть ивент кристалу на процесс корутину
-                        OnFeverModeActivate?.Invoke();
+                        snakeAnim.SetBool("isFeverModOn", true);
                     }
                     currTime = 0f;
                  }
@@ -71,7 +52,34 @@ public class SnakeCollisions : MonoBehaviour
         }
     }
 
-    private void CheckingCollectable(ACollectable collectable)
+    private void CollectableCheck(Collider other)
+    {
+        ACollectable collectable = other.GetComponent<ACollectable>();
+        if (collectable != null)
+        {
+            if (collectable is Crystal)
+            {
+                crystals.Add(collectable);
+
+                StopAllCoroutines();
+                StartCoroutine(FeverModCheck());
+            }
+            HumanColorCheck(collectable);
+        }
+    }
+
+    private void ObstacleCheck(Collider other)
+    {
+        Obstacle obs = other.GetComponent<Obstacle>();
+        if (obs != null)
+        {
+            obs.DamageSnake();
+
+            StartCoroutine(obstacleCollision.StartEvent(snakeAnim.GetBool("isFeverModOn")));
+        }
+    }
+
+    private void HumanColorCheck(ACollectable collectable)
     {
         ICompareColor compareableColor = collectable.GetComponent<ICompareColor>();
         if (compareableColor != null)
@@ -82,7 +90,7 @@ public class SnakeCollisions : MonoBehaviour
                     InvokeCollectableEvents(collectable.CollectableType);
                     break;
                 case false:
-                    StartCoroutine(obstacleCollision.StartEvent());
+                    StartCoroutine(obstacleCollision.StartEvent(snakeAnim.GetBool("isFeverModOn")));
                     break;
             }
         }
@@ -142,10 +150,13 @@ public class ObstacleCollisionEvent
     [SerializeField] private UnityEvent OnObstacleCollide;
     [SerializeField] private float toInvoke;
 
-    public IEnumerator StartEvent()
+    public IEnumerator StartEvent(bool canDamage)
     {
-        yield return new WaitForSeconds(toInvoke);
-        OnObstacleCollide?.Invoke();
+        if(!canDamage)
+        {
+           yield return new WaitForSeconds(toInvoke);
+           OnObstacleCollide?.Invoke();
+        }
     }
 }
 

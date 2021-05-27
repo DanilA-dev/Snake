@@ -4,20 +4,8 @@ using UnityEngine;
 using System;
 public class Crystal : ACollectable
 {
-
     public override CollectableType CollectableType => CollectableType.Crystal;
-    public static bool isFeverModeOn = false;
-
-    private void OnEnable()
-    {
-        SnakeCollisions.OnFeverModeActivate += SnakeCollisions_OnFeverModeActivate;
-    }
-
-    private void SnakeCollisions_OnFeverModeActivate()
-    {
-        StopAllCoroutines();
-        StartCoroutine(InProcess(CollectableParams.ProcessingTime));
-    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,7 +16,6 @@ public class Crystal : ACollectable
         }
     }
 
-    
 
     protected override void Activate()
     {
@@ -50,19 +37,6 @@ public class Crystal : ACollectable
             Animate();
         }
 
-    }
-
-
-    protected override IEnumerator InProcess(float time)
-    {
-        CollectableState = CollectableState.InProcess;
-        if(CollectableState == CollectableState.InProcess)
-        {
-            isFeverModeOn = true;
-            yield return new WaitForSeconds(time);
-            isFeverModeOn = false;
-            CollectableState = CollectableState.NotEaten;
-        }
     }
 
 
