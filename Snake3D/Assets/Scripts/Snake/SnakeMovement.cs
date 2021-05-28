@@ -18,6 +18,7 @@ public class SnakeMovement : MonoBehaviour
     [SerializeField] private float minSteeringX, maxSteeringX;
 
 
+    private float screenWidth;
     private Quaternion startRot;
     private List<Transform> tails = new List<Transform>();
 
@@ -37,6 +38,7 @@ public class SnakeMovement : MonoBehaviour
     private void Awake()
     {
         tails.Add(snakeHead);
+        screenWidth = Screen.width / 2;
         startRot = tails[0].rotation;
     }
 
@@ -58,7 +60,39 @@ public class SnakeMovement : MonoBehaviour
     
     private void Steering()
     {
-        if(Input.GetKey(KeyCode.D))
+       if (Input.touchCount > 0)
+       {
+           var touch = Input.GetTouch(0);
+
+           if (touch.position.x > screenWidth)
+           {
+               if (tails[0].position.x >= maxSteeringX)
+               {
+                   ResetRotation();
+                   return;
+               }
+
+               tails[0].Translate(Vector3.right * Time.deltaTime * snakeSpeed, Space.World);
+               tails[0].Rotate(Vector3.up, SteeringRotation());
+           }
+           else if (touch.position.x < screenWidth)
+           {
+               if (tails[0].position.x <= minSteeringX)
+               {
+                   ResetRotation();
+                   return;
+               }
+
+               tails[0].Translate(Vector3.left * Time.deltaTime * snakeSpeed, Space.World);
+               tails[0].Rotate(Vector3.up, -SteeringRotation());
+           }
+           else
+           {
+               ResetRotation();
+           }
+       }
+
+        if (Input.GetKey(KeyCode.D))
         {
             if (tails[0].position.x >= maxSteeringX)
             {

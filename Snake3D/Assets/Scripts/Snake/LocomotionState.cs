@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LocomotionState : StateMachineBehaviour
 {
     private SnakeMovement snakeMovement;
@@ -12,6 +13,10 @@ public class LocomotionState : StateMachineBehaviour
         if(snakeMovement == null)
         {
            snakeMovement = animator.GetComponent<SnakeMovement>();
+            if(snakeMovement == null)
+            {
+                Debug.LogError("snakeMovement is null");
+            }
         }
         return snakeMovement;
     }
@@ -20,13 +25,12 @@ public class LocomotionState : StateMachineBehaviour
     {
         if(snakeState == null)
         {
-            snakeState = animator.GetComponentInParent<SnakeState>();
-
-            if (snakeState == null)
+            snakeState = animator.GetComponent<SnakeState>();
+            if(snakeState == null)
             {
-                snakeState = animator.GetComponent<SnakeState>();
+                Debug.LogError("snakeState is null");
             }
-        }   
+        }  
         return snakeState;
     }
 }

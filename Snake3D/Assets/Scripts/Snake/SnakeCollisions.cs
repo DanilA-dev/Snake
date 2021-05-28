@@ -20,6 +20,7 @@ public class SnakeCollisions : MonoBehaviour
     private float timeBetween = 0.5f;
     private float currTime;
 
+    private int feverBoolHash = Animator.StringToHash("isFeverModOn");
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,8 +28,6 @@ public class SnakeCollisions : MonoBehaviour
         ObstacleCheck(other);
     }
 
-
-    // v drugoy klass
     private IEnumerator FeverModCheck()
     {
         if(crystals.Count > 0)
@@ -40,7 +39,7 @@ public class SnakeCollisions : MonoBehaviour
                  {
                     if(crystals.Count >= 3)
                     {
-                        snakeAnim.SetBool("isFeverModOn", true);
+                        snakeAnim.SetBool(feverBoolHash, true);
                     }
                     currTime = 0f;
                  }
@@ -75,7 +74,7 @@ public class SnakeCollisions : MonoBehaviour
         {
             obs.DamageSnake();
 
-            StartCoroutine(obstacleCollision.StartEvent(snakeAnim.GetBool("isFeverModOn")));
+            StartCoroutine(obstacleCollision.StartEvent(snakeAnim.GetBool(feverBoolHash)));
         }
     }
 
@@ -90,7 +89,7 @@ public class SnakeCollisions : MonoBehaviour
                     InvokeCollectableEvents(collectable.CollectableType);
                     break;
                 case false:
-                    StartCoroutine(obstacleCollision.StartEvent(snakeAnim.GetBool("isFeverModOn")));
+                    StartCoroutine(obstacleCollision.StartEvent(snakeAnim.GetBool(feverBoolHash)));
                     break;
             }
         }
@@ -106,7 +105,7 @@ public class SnakeCollisions : MonoBehaviour
         {
             if(eateableCollisions[i].Collectable == type)
             {
-               StartCoroutine(eateableCollisions[i].StartEvent(this));
+               StartCoroutine(eateableCollisions[i].StartEvent());
             }
         }
     }
@@ -126,22 +125,11 @@ public class CollectableCollisonEvent
     #endregion
 
 
-    public IEnumerator StartEvent(MonoBehaviour monoBeh)
+    public IEnumerator StartEvent()
     {
         yield return new WaitForSeconds(toInvoke);
         OnCollision?.Invoke();
-
-        if(collectable == CollectableType.Crystal)
-        {
-            monoBeh.StartCoroutine(FeverModCheck());
-        }
     }
-
-    private IEnumerator FeverModCheck()
-    {
-        yield return new WaitForSeconds(0);
-    }
-
 }
 
 [System.Serializable]

@@ -6,7 +6,7 @@ public class BasicLocomotion : LocomotionState
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SnakeState(animator).ChangeState(PlayerModState.Normal);
+        SnakeState(animator).PlayerModState = PlayerModState.Normal;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

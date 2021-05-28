@@ -45,20 +45,15 @@ public class SnakeState : MonoBehaviour
 
     private void SnakeState_OnModStateChanged(PlayerModState state)
     {
-        foreach (var m in modState)
+        for (int i = 0; i < modState.Count; i++)
         {
-            if(m.CurrentModState == state)
+            if(modState[i].CurrentModState == state)
             {
-                m.Invoke();
+                StartCoroutine(modState[i].Invoke());
             }
         }
     }
-
-    public void ChangeState(PlayerModState nextState)
-    {
-        playerModState = nextState;
-    }
-
+    
 }
 [Serializable]
 public class ModStateEvent

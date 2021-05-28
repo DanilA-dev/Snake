@@ -20,15 +20,15 @@ public class SnakeFeverMod : LocomotionState
 
    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
    {
-        SnakeState(animator).ChangeState(PlayerModState.Fever);
 
+        SnakeState(animator).PlayerModState = PlayerModState.Fever;
         startTime = modTime;
         feverSnakeSpeed = SnakeMovement(animator).SnakeSpeed * speedModifier;
-        CameraShake.Instance.Shake(modTime, 0.2f);
    }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        CameraShake.Instance.Shake(modTime, 0.001f);
         SetSnakeToPosition(animator);
     }
 
